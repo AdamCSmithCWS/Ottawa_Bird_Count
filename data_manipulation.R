@@ -29,6 +29,10 @@ for(i in sheet_names){
       select(-date)
     
   }
+  if(i == "species_point_observation_count"){
+    tmp <- tmp %>% 
+      select(-rank)
+  }
   
   obc_point_count[[i]] <- as.data.frame(tmp)
 }

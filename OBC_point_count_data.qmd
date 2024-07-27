@@ -217,14 +217,12 @@ There were `r nrow(point_counts_08) - nrow(point_counts_surveyed_2008)` point co
 
 Now, we collect the bird observations from those point count surveys. We will join the point_count_surveyed_2008 dataframe to the bird observations in a way that ensures all of the appropriate zeroes are added to the database (zero-counts of species not observed at all during a particular point count).
 
-To do that, first we get the full set of bird observations from 2008.
+To do that, first we get the full set of bird observations from 2008. 
 
 ```{r}
 
 birds_observed_2008 <- all_data[["species_point_observation_count"]] %>% 
-  filter(route_point_observation_id %in% points_counts_surveyed_2008$route_point_observation_id) %>% 
-  left_join(.,all_data[["species"]],
-            by = "species_id")
+  filter(route_point_observation_id %in% points_counts_surveyed_2008$route_point_observation_id) 
 
 ```
 
@@ -243,15 +241,43 @@ full_species_point_dataframe <- expand_grid(route_point_obs_2008,species_list_20
 
 ```
 
+Then we join the bird observation information to this full dataframe and replace the missing counts with 0 values.
 
-
-First, I'll visualise those locations that were surveyed in 2008.
 ```{r}
-point_counts_08 <- all_data[["route_point"]] %>% 
-  filter(route_id %in% surveys_08$route_id)
 
+
+observations_w_zeroes <- full_species_point_dataframe %>% 
+  left_join(.,birds_observed_2008,
+            by = c("species_id","route_point_observation_id"))%>% 
+  left_join(.,all_data[["species"]],
+            by = "species_id") %>% 
+  mutate(true_zeros = ifelse(is.na(count_0),TRUE,FALSE),
+         count_0 = ifelse(true_zeros,
+                          0,count_0),
+         count_2 = ifelse(true_zeros,
+                          0,count_2),
+         count_4 = ifelse(true_zeros,
+                          0,count_4),
+         count_6 = ifelse(true_zeros,
+                          0,count_6),
+         count_8 = ifelse(true_zeros,
+                          0,count_8),
+         count_75 = ifelse(true_zeros & !is.na(count_75),
+                          0,count_75),
+         count_75_0 = ifelse(true_zeros,
+                          0,count_75_0),
+         count_75_2 = ifelse(true_zeros,
+                          0,count_75_2),
+         count_75_4 = ifelse(true_zeros,
+                          0,count_75_4),
+         count_75_6 = ifelse(true_zeros,
+                          0,count_75_6),
+         count_75_8 = ifelse(true_zeros,
+                          0,count_75_8))
 
 ```
 
+
+This `observations_w_zeroes` dataframe now includes all bird observations, with the appropriate zero values for species that were absent during a given point count. 
 
 
