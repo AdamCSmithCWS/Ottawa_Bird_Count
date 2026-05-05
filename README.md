@@ -8,7 +8,7 @@ Additional data on the number of vehicles passing the observer (e.g., background
 
 ## Years with data
 
-The Ottawa Bird Count started in 2007, and most surveys were conducted during the years 2007 - 2013. There were a few surveys conducted during the years 2013-2018, and then the field program has been suspended since 2019. The program will re-start in the field season of 2027, when all of the original point count locations will be re-surveyed with the intention of estimating 20-year changes in the city's bird populations.
+The Ottawa Bird Count started in 2007, and most surveys were conducted during the years 2007 - 2013. There were a few surveys conducted during the years 2013-2018, and then the field program has been suspended since 2019. 
 
 ## Data column descriptions
 
